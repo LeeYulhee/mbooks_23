@@ -100,7 +100,7 @@ public class RebateService {
 
         return RsData.of(
                 "S-1",
-                "주문품목번호 %d번에 대해서 판매자에게 %s원 정산을 완료하였습니다.".formatted(rebateOrderItem.getOrderItem().getId(), calculateRebatePrice),
+                "주문품목번호 %d번에 대해서 판매자에게 %s원 정산을 완료하였습니다.".formatted(rebateOrderItem.getOrderItem().getId(), Ut.nf(calculateRebatePrice)),
                 Ut.mapOf(
                         "cashLogId", cashLog.getId()
                 )
