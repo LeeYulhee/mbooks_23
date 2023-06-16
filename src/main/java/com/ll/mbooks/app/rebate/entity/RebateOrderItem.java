@@ -27,7 +27,7 @@ import static jakarta.persistence.FetchType.LAZY;
 public class RebateOrderItem extends BaseEntity {
     @OneToOne(fetch = LAZY)
     @ToString.Exclude
-    @JoinColumn(foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    @JoinColumn(unique = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private OrderItem orderItem;
 
     @ManyToOne(fetch = LAZY)
@@ -126,5 +126,27 @@ public class RebateOrderItem extends BaseEntity {
 
     public boolean isRebateDone() {
         return rebateDate != null;
+    }
+
+    public void updateWith(RebateOrderItem item) {
+        orderItem = item.getOrderItem();
+        order = item.getOrder();
+        product = item.getProduct();
+        price = item.getPrice();
+        salePrice = item.getSalePrice();
+        wholesalePrice = item.getWholesalePrice();
+        pgFee = item.getPgFee();
+        payPrice = item.getPayPrice();
+        refundPrice = item.getRefundPrice();
+        isPaid = item.isPaid();
+        payDate = item.getPayDate();
+        rebateCashLog = item.getRebateCashLog();
+        rebateDate = item.getRebateDate();
+        productSubject = item.getProductSubject();
+        orderItemCreateDate = item.getOrderItemCreateDate();
+        buyer = item.getBuyer();
+        buyerName = item.getBuyerName();
+        seller = item.getSeller();
+        sellerName = item.getSellerName();
     }
 }

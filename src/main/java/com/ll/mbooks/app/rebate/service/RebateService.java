@@ -14,7 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -40,7 +39,7 @@ public class RebateService {
         List<RebateOrderItem> rebateOrderItems = orderItems
                 .stream()
                 .map(this::toRebateOrderItem)
-                .collect(Collectors.toList());
+                .toList();
 
         // 저장하기
         rebateOrderItems.forEach(this::makeRebateOrderItem);
@@ -57,10 +56,12 @@ public class RebateService {
                 return;
             }
 
-            rebateOrderItemRepository.delete(oldRebateOrderItem);
-        }
+            oldRebateOrderItem.updateWith(item);
 
-        rebateOrderItemRepository.save(item);
+            rebateOrderItemRepository.save(oldRebateOrderItem);
+        } else {
+            rebateOrderItemRepository.save(item);
+        }
     }
 
     public RebateOrderItem toRebateOrderItem(OrderItem orderItem) {
