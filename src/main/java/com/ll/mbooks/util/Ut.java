@@ -54,6 +54,10 @@ public class Ut {
         public static LocalDateTime parse(String dateText) {
             return parse("yyyy-MM-dd HH:mm:ss.SSSSSS", dateText);
         }
+
+        public static String getCurrentYearMonth() {
+            return LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM"));
+        }
     }
 
     private static ObjectMapper getObjectMapper() {

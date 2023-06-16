@@ -46,8 +46,8 @@ public class AdmRebateController {
     @GetMapping("/rebateOrderItemList")
     @PreAuthorize("hasAuthority('ADMIN')")
     public String showRebateOrderItemList(String yearMonth, Model model) {
-        if (StringUtils.hasText(yearMonth) == false) {
-            yearMonth = "2022-11";
+        if (!StringUtils.hasText(yearMonth)) {
+            yearMonth = Ut.date.getCurrentYearMonth();
         }
 
         List<RebateOrderItem> items = rebateService.findRebateOrderItemsByPayDateIn(yearMonth);
