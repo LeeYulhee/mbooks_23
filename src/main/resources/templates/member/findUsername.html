@@ -27,7 +27,7 @@
                     form.email.value = form.email.value.trim();
 
                     if (form.email.value.length == 0) {
-                        warningModal("아이디를 입력해주세요.");
+                        toastWarning("아이디를 입력해주세요.");
                         form.email.focus();
 
                         return;

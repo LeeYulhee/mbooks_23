@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Service
 @RequiredArgsConstructor
@@ -50,6 +51,13 @@ public class AttrService {
     @Transactional
     public void set(String varName, boolean value, LocalDateTime expireDate) {
         set(varName, String.valueOf(value), expireDate);
+    }
+
+    @Transactional
+    public void set(String relTypeCode, Long relId, String typeCode, String type2Code, LocalDateTime value) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
+
+        attrRepository.upsert(relTypeCode, relId, typeCode, type2Code, value.format(formatter), null);
     }
 
     public Attr findAttr(String varName) {
@@ -96,5 +104,16 @@ public class AttrService {
         if (value.equals("true")) {
             return true;
         } else return value.equals("1");
+    }
+
+    public LocalDateTime getAsLocalDatetime(String relTypeCode, Long relId, String typeCode, String type2Code, LocalDateTime defaultValue) {
+        String varName = "%s__%d__%s__%s".formatted(relTypeCode, relId, typeCode, type2Code);
+        String value = get(varName, "");
+
+        if (value.isBlank()) {
+            return defaultValue;
+        }
+
+        return LocalDateTime.parse(value, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS"));
     }
 }

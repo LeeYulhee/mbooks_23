@@ -1,8 +1,8 @@
 toastr.options = {
-    closeButton: false,
+    closeButton: true,
     debug: false,
-    newestOnTop: false,
-    progressBar: false,
+    newestOnTop: true,
+    progressBar: true,
     positionClass: "toast-top-right",
     preventDuplicates: false,
     onclick: null,
@@ -28,26 +28,23 @@ function parseMsg(msg) {
     return [pureMsg, true];
 }
 
-function successModal(msg) {
+function toastNotice(msg) {
     const [pureMsg, needToShow] = parseMsg(msg);
 
     if (needToShow) {
-        toastr["success"](pureMsg);
+        toastr["success"](pureMsg, "알림");
     }
 }
 
-function errorModal(msg) {
+function toastWarning(msg) {
     const [pureMsg, needToShow] = parseMsg(msg);
 
     if (needToShow) {
-        toastr["error"](pureMsg);
+        toastr["warning"](pureMsg, "경고");
     }
 }
 
-function warningModal(msg) {
-    const [pureMsg, needToShow] = parseMsg(msg);
-
-    if (needToShow) {
-        toastr["warning"](pureMsg);
-    }
+// 어떠한 기능을 살짝 늦게(0.1 초 미만)
+function setTimeoutZero(callback) {
+    setTimeout(callback);
 }

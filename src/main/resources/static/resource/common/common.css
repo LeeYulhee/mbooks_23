@@ -17,3 +17,7 @@ html > body {
 .text-link:hover {
     text-decoration: underline;
 }
+
+html > body .label-text {
+    font-size: 1rem;
+}

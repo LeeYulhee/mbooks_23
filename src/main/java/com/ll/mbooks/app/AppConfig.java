@@ -28,6 +28,9 @@ public class AppConfig {
     @Getter
     public static int cancelAvailableSeconds;
 
+    @Getter
+    public static int changePasswordCycleDays;
+
     @Autowired
     public void setContext(ApplicationContext context) {
         AppConfig.context = context;
@@ -56,6 +59,11 @@ public class AppConfig {
     @Value("${custom.site.baseUrl}")
     public void setSiteBaseUrl(String siteBaseUrl) {
         AppConfig.siteBaseUrl = siteBaseUrl;
+    }
+
+    @Value("${custom.member.changePasswordCycleDays}")
+    public void setChangePasswordCycleDays(int changePasswordCycleDays) {
+        AppConfig.changePasswordCycleDays = changePasswordCycleDays;
     }
 
     public static boolean isNotProd() {

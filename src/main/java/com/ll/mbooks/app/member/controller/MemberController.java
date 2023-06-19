@@ -3,6 +3,7 @@ package com.ll.mbooks.app.member.controller;
 import com.ll.mbooks.app.base.dto.RsData;
 import com.ll.mbooks.app.base.rq.Rq;
 import com.ll.mbooks.app.member.entity.Member;
+import com.ll.mbooks.app.member.exception.AlreadyJoinException;
 import com.ll.mbooks.app.member.form.JoinForm;
 import com.ll.mbooks.app.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,7 +44,12 @@ public class MemberController {
     @PreAuthorize("isAnonymous()")
     @PostMapping("/join")
     public String join(@Valid JoinForm joinForm) {
-        memberService.join(joinForm.getUsername(), joinForm.getPassword(), joinForm.getEmail(), joinForm.getNickname());
+        try {
+            memberService.join(joinForm.getUsername(), joinForm.getPassword(), joinForm.getEmail(), joinForm.getNickname());
+        }
+        catch (AlreadyJoinException e ) {
+            return rq.historyBack(e.getMessage());
+        }
 
         return Rq.redirectWithMsg("/member/login", "회원가입이 완료되었습니다.");
     }

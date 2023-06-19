@@ -37,7 +37,7 @@ spring:
 logging:
   level:
     root: INFO
-    com.ll.exam.mbooks.app: DEBUG
+    com.ll.mbooks: DEBUG
     org.hibernate.orm.jdbc.bind: TRACE
     org.hibernate.orm.jdbc.extract: TRACE
 custom:
@@ -45,6 +45,8 @@ custom:
     cancelAvailableSeconds: 600
   rebate:
     wholesalePriceRate: 0.5
+  member:
+    changePasswordCycleDays: 90
   site:
     name: M-BOOKS
     baseUrl: "http://localhost:8010"

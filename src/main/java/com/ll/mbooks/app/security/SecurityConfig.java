@@ -1,6 +1,7 @@
 package com.ll.mbooks.app.security;
 
 
+import com.ll.mbooks.app.security.handler.CustomAuthenticationSuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,16 +10,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final AuthenticationSuccessHandler authenticationSuccessHandler;
-    private final AuthenticationFailureHandler authenticationFailureHandler;
+    private final CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -33,8 +31,7 @@ public class SecurityConfig {
                         formLogin -> formLogin
                                 .loginPage("/member/login") // GET
                                 .loginProcessingUrl("/member/login") // POST
-                                .successHandler(authenticationSuccessHandler)
-                                .failureHandler(authenticationFailureHandler)
+                                .successHandler(customAuthenticationSuccessHandler)
                 )
                 .authorizeHttpRequests(
                         authorizeHttpRequests -> authorizeHttpRequests

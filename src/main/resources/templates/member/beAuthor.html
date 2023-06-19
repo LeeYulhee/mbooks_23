@@ -27,7 +27,7 @@
                     form.nickname.value = form.nickname.value.trim();
 
                     if (form.nickname.value.length == 0) {
-                        warningModal("필명을 입력해주세요.");
+                        toastWarning("필명을 입력해주세요.");
                         form.nickname.focus();
 
                         return;

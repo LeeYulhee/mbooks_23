@@ -27,7 +27,7 @@
                     form.bankName.value = form.bankName.value.trim();
 
                     if (form.bankName.value.length == 0) {
-                        warningModal("은행명을 입력해주세요.");
+                        toastWarning("은행명을 입력해주세요.");
                         form.bankName.focus();
 
                         return;
@@ -36,7 +36,7 @@
                     form.bankAccountNo.value = form.bankAccountNo.value.trim();
 
                     if (form.bankAccountNo.value.length == 0) {
-                        warningModal("출금 계좌번호를 입력해주세요.");
+                        toastWarning("출금 계좌번호를 입력해주세요.");
                         form.bankAccountNo.focus();
 
                         return;
@@ -45,7 +45,7 @@
                     form.price.value = form.price.value.trim();
 
                     if (form.price.value.length == 0) {
-                        warningModal("출금 금액을 입력해주세요.");
+                        toastWarning("출금 금액을 입력해주세요.");
                         form.price.focus();
 
                         return;

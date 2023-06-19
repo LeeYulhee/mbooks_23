@@ -25,7 +25,7 @@
                     form.subject.value = form.subject.value.trim();
 
                     if (form.subject.value.length == 0) {
-                        warningModal("제목을 입력해주세요.");
+                        toastWarning("제목을 입력해주세요.");
                         form.subject.focus();
 
                         return;
@@ -34,7 +34,7 @@
                     form.postTagContents.value = form.postTagContents.value.trim();
 
                     if (form.postTagContents.value.length == 0) {
-                        warningModal("태그를 입력해주세요.");
+                        toastWarning("태그를 입력해주세요.");
                         form.postTagContents.focus();
 
                         return;
@@ -48,7 +48,7 @@
                     form.contentHtml.value = html;
 
                     if (form.content.value.length == 0 || form.contentHtml.value.length == 0) {
-                        warningModal("내용을 입력해주세요");
+                        toastWarning("내용을 입력해주세요");
                         editor.focus();
                         return;
                     }

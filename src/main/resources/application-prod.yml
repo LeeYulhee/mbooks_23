@@ -33,7 +33,7 @@ spring:
 logging:
   level:
     root: INFO
-    com.ll.exam.mbooks.app: INFO
+    com.ll.mbooks: INFO
     org.hibernate.orm.jdbc.bind: INFO
     org.hibernate.orm.jdbc.extract: INFO
 custom:

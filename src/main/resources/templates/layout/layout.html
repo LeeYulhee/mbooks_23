@@ -10,14 +10,14 @@
     <title layout:title-pattern="$LAYOUT_TITLE | $CONTENT_TITLE" th:text="${@appConfig.siteName}"></title>
 
     <!-- 제이쿼리 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
 
     <!-- toastr -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+    <link rel="stylesheet" href="https://jhs512.github.io/toastr/toastr.css">
 
     <!-- 폰트어썸 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- 테일윈드 -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -26,7 +26,7 @@
 <body class="min-h-screen flex flex-col pt-[35px] md:pt-[50px]">
 
 <!-- 데이지 UI -->
-<link href="https://cdn.jsdelivr.net/npm/daisyui@2.31.0/dist/full.css" rel="stylesheet" type="text/css"/>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@3.1.1/dist/full.css" rel="stylesheet" type="text/css" />
 
 <!-- common.css -->
 <link href="/resource/common/common.css" rel="stylesheet" type="text/css"/>
@@ -64,12 +64,34 @@
     const params = /*[[ ${param} ]]*/ null;
 
     if (params.msg) {
-        successModal(params.msg[0]);
+        toastNotice(params.msg[0]);
+    }
+
+    if (params.error) {
+        params.errorMsg = ['로그인 정보가 올바르지 않습니다.'];
     }
 
     if (params.errorMsg) {
-        errorModal(params.errorMsg[0]);
+        toastWarning(params.errorMsg[0]);
     }
+
+    // history.back 에 의해서 돌아온 경우에 실행됨
+    // 평소에도 실행됨
+    $(window).bind("pageshow", function (event) {
+        const localStorageKeyAboutHistoryBackErrorMsg = "historyBackErrorMsg___" + location.href;
+
+        if (localStorage.getItem(localStorageKeyAboutHistoryBackErrorMsg)) {
+            toastWarning(localStorage.getItem(localStorageKeyAboutHistoryBackErrorMsg));
+            localStorage.removeItem(localStorageKeyAboutHistoryBackErrorMsg);
+        } else {
+            const localStorageKeyAboutHistoryBackErrorMsg = "historyBackErrorMsg___null";
+
+            if (localStorage.getItem(localStorageKeyAboutHistoryBackErrorMsg)) {
+                toastWarning(localStorage.getItem(localStorageKeyAboutHistoryBackErrorMsg));
+                localStorage.removeItem(localStorageKeyAboutHistoryBackErrorMsg);
+            }
+        }
+    });
 </script>
 
 <!-- jdenticon -->
