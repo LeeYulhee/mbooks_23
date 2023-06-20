@@ -49,15 +49,13 @@ public class OrderController {
 
         Member actor = memberContext.getMember();
 
-        long restCash = memberService.getRestCash(actor);
-
-        if (orderService.actorCanPayment(actor, order) == false) {
+        if (!orderService.actorCanPayment(actor, order)) {
             throw new ActorCanNotPayOrderException();
         }
 
         RsData rsData = orderService.payByRestCashOnly(order);
 
-        return "redirect:/order/%d?msg=%s".formatted(order.getId(), Ut.url.encode("예치금으로 결제했습니다."));
+        return Rq.redirectWithMsg("/order/%d".formatted(order.getId()), rsData.getMsg());
     }
 
     @GetMapping("/{id}")
