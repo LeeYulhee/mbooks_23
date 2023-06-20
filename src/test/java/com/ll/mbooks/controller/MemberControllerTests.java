@@ -1,7 +1,7 @@
 package com.ll.mbooks.controller;
 
-import com.ll.mbooks.app.member.controller.MemberController;
-import com.ll.mbooks.app.member.service.MemberService;
+import com.ll.mbooks.domain.member.controller.MemberController;
+import com.ll.mbooks.domain.member.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

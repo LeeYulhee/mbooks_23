@@ -1,9 +1,9 @@
 package com.ll.mbooks.job.makeRebateData;
 
-import com.ll.mbooks.app.order.entity.OrderItem;
-import com.ll.mbooks.app.order.repository.OrderItemRepository;
-import com.ll.mbooks.app.rebate.entity.RebateOrderItem;
-import com.ll.mbooks.app.rebate.repository.RebateOrderItemRepository;
+import com.ll.mbooks.domain.order.entity.OrderItem;
+import com.ll.mbooks.domain.order.repository.OrderItemRepository;
+import com.ll.mbooks.domain.rebate.entity.RebateOrderItem;
+import com.ll.mbooks.domain.rebate.repository.RebateOrderItemRepository;
 import com.ll.mbooks.util.Ut;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

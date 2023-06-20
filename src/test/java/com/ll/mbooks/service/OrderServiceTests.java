@@ -1,14 +1,14 @@
 package com.ll.mbooks.service;
 
 
-import com.ll.mbooks.app.base.dto.RsData;
-import com.ll.mbooks.app.cart.service.CartService;
-import com.ll.mbooks.app.member.entity.Member;
-import com.ll.mbooks.app.member.service.MemberService;
-import com.ll.mbooks.app.order.entity.Order;
-import com.ll.mbooks.app.order.service.OrderService;
-import com.ll.mbooks.app.product.entity.Product;
-import com.ll.mbooks.app.product.service.ProductService;
+import com.ll.mbooks.base.dto.RsData;
+import com.ll.mbooks.domain.cart.service.CartService;
+import com.ll.mbooks.domain.member.entity.Member;
+import com.ll.mbooks.domain.member.service.MemberService;
+import com.ll.mbooks.domain.order.entity.Order;
+import com.ll.mbooks.domain.order.service.OrderService;
+import com.ll.mbooks.domain.product.entity.Product;
+import com.ll.mbooks.domain.product.service.ProductService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

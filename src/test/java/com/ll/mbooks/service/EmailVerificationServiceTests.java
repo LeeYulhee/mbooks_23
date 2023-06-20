@@ -1,10 +1,10 @@
 package com.ll.mbooks.service;
 
 
-import com.ll.mbooks.app.base.dto.RsData;
-import com.ll.mbooks.app.emailVerification.service.EmailVerificationService;
-import com.ll.mbooks.app.member.entity.Member;
-import com.ll.mbooks.app.member.service.MemberService;
+import com.ll.mbooks.base.dto.RsData;
+import com.ll.mbooks.domain.emailVerification.service.EmailVerificationService;
+import com.ll.mbooks.domain.member.entity.Member;
+import com.ll.mbooks.domain.member.service.MemberService;
 import com.ll.mbooks.util.Ut;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

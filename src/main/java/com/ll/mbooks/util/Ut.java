@@ -3,8 +3,8 @@ package com.ll.mbooks.util;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ll.mbooks.app.AppConfig;
-import com.ll.mbooks.app.base.dto.RsData;
+import com.ll.mbooks.base.AppConfig;
+import com.ll.mbooks.base.dto.RsData;
 import lombok.SneakyThrows;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

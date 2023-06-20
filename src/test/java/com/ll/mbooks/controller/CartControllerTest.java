@@ -1,9 +1,9 @@
 package com.ll.mbooks.controller;
 
 
-import com.ll.mbooks.app.cart.controller.CartController;
-import com.ll.mbooks.app.cart.service.CartService;
-import com.ll.mbooks.app.member.entity.Member;
+import com.ll.mbooks.domain.cart.controller.CartController;
+import com.ll.mbooks.domain.cart.service.CartService;
+import com.ll.mbooks.domain.member.entity.Member;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

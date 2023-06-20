@@ -1,7 +1,7 @@
 package com.ll.mbooks.controller;
 
-import com.ll.mbooks.app.order.controller.OrderController;
-import com.ll.mbooks.app.order.service.OrderService;
+import com.ll.mbooks.domain.order.controller.OrderController;
+import com.ll.mbooks.domain.order.service.OrderService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

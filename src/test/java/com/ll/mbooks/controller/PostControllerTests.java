@@ -1,9 +1,9 @@
 package com.ll.mbooks.controller;
 
-import com.ll.mbooks.app.post.controller.PostController;
-import com.ll.mbooks.app.post.entity.Post;
-import com.ll.mbooks.app.post.service.PostService;
-import com.ll.mbooks.app.postTag.entity.PostTag;
+import com.ll.mbooks.domain.post.controller.PostController;
+import com.ll.mbooks.domain.post.entity.Post;
+import com.ll.mbooks.domain.post.service.PostService;
+import com.ll.mbooks.domain.postTag.entity.PostTag;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
