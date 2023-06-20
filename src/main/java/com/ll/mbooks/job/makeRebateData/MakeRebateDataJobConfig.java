@@ -20,7 +20,6 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.data.RepositoryItemReader;
 import org.springframework.batch.item.data.builder.RepositoryItemReaderBuilder;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Sort;
@@ -39,9 +38,7 @@ public class MakeRebateDataJobConfig {
     private final JobRepository jobRepository;
 
     @Bean
-    public Job makeRebateDataJob(Step makeRebateDataStep1, CommandLineRunner initData) throws Exception {
-        initData.run();
-
+    public Job makeRebateDataJob(Step makeRebateDataStep1) {
         return new JobBuilder("makeRebateDataJob", jobRepository)
                 .start(makeRebateDataStep1)
                 .build();

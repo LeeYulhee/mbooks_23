@@ -24,7 +24,7 @@ import java.util.List;
 
 @Configuration
 @Profile({"dev", "test"})
-public class NotProdInitData {
+public class NotProd {
     private boolean initDataDone = false;
 
     @Bean
