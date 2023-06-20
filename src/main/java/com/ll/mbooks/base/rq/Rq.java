@@ -6,6 +6,7 @@ import com.ll.mbooks.domain.member.entity.Member;
 import com.ll.mbooks.util.Ut;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
@@ -155,5 +156,9 @@ public class Rq {
 
     public boolean isAdmPage() {
         return req.getRequestURI().startsWith("/adm");
+    }
+
+    public HttpSession getSession() {
+        return req.getSession();
     }
 }

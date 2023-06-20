@@ -157,26 +157,9 @@ public class MemberService {
             return RsData.of("F-1", "해당 필명은 이미 사용중입니다.");
         }
 
-        opMember = memberRepository.findById(member.getId());
-
-        opMember.get().setNickname(nickname);
-        forceAuthentication(opMember.get());
+        member.setNickname(nickname);
 
         return RsData.of("S-1", "해당 필명으로 활동을 시작합니다.");
-    }
-
-    private void forceAuthentication(Member member) {
-        MemberContext memberContext = new MemberContext(member, member.genAuthorities());
-
-        UsernamePasswordAuthenticationToken authentication =
-                UsernamePasswordAuthenticationToken.authenticated(
-                        memberContext,
-                        member.getPassword(),
-                        memberContext.getAuthorities()
-                );
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        context.setAuthentication(authentication);
-        SecurityContextHolder.setContext(context);
     }
 
     @Transactional

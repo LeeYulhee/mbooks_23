@@ -2,6 +2,7 @@ package com.ll.mbooks.domain.member.controller;
 
 import com.ll.mbooks.base.dto.RsData;
 import com.ll.mbooks.base.rq.Rq;
+import com.ll.mbooks.base.security.dto.MemberContext;
 import com.ll.mbooks.domain.member.entity.Member;
 import com.ll.mbooks.domain.member.exception.AlreadyJoinException;
 import com.ll.mbooks.domain.member.form.JoinForm;
@@ -10,11 +11,17 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 
 @Controller
@@ -139,6 +146,18 @@ public class MemberController {
             return Rq.redirectWithMsg("/member/beAuthor", rsData);
         }
 
+        forceAuthentication(member);
+
         return Rq.redirectWithMsg("/", rsData);
+    }
+
+    private void forceAuthentication(Member member) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        List<GrantedAuthority> updatedAuthorities = member.genAuthorities();
+
+        Authentication newAuth = new UsernamePasswordAuthenticationToken(new MemberContext(member, member.genAuthorities()), auth.getCredentials(), updatedAuthorities);
+
+        SecurityContextHolder.getContext().setAuthentication(newAuth);
     }
 }
