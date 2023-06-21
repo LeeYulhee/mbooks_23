@@ -39,8 +39,17 @@
             </script>
 
 
-            <form th:action method="POST" class="flex flex-col gap-3"
+            <form enctype="multipart/form-data" th:action method="POST" class="flex flex-col gap-3"
                   onsubmit="MemberBeAuthor__submit(this); return false;">
+                <div class="form-control">
+                    <label class="label">
+                        <span class="label-text">아바타</span>
+                    </label>
+                    <input type="file" name="avatar"
+                           class="file-input input-bordered"
+                           accept="image/png, image/jpeg, image/gif">
+                </div>
+
                 <div class="form-control">
                     <label class="label">
                         <span class="label-text">필명</span>

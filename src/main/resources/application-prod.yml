@@ -39,3 +39,4 @@ logging:
 custom:
   site:
     baseUrl: "https://service-domain"
+  genFileDirPath: /gen

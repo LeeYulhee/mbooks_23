@@ -10,6 +10,7 @@ import com.ll.mbooks.domain.member.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -27,6 +29,7 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/member")
+@Slf4j
 public class MemberController {
     private final MemberService memberService;
     private final Rq rq;
@@ -137,7 +140,8 @@ public class MemberController {
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/beAuthor")
-    public String beAuthor(String nickname) {
+    public String beAuthor(MultipartFile avatar, String nickname) {
+        log.debug("avatar : {}", avatar);
         Member member = rq.getMember();
 
         RsData rsData = memberService.beAuthor(member, nickname);

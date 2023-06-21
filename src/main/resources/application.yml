@@ -49,3 +49,4 @@ custom:
   site:
     name: M-BOOKS
     baseUrl: "http://localhost:8010"
+  genFileDirPath: c:/temp/mbooks
