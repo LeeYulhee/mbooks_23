@@ -3,7 +3,6 @@ package com.ll.mbooks.domain.member.service;
 import com.ll.mbooks.base.AppConfig;
 import com.ll.mbooks.base.dto.RsData;
 import com.ll.mbooks.base.entity.BaseEntity;
-import com.ll.mbooks.base.security.dto.MemberContext;
 import com.ll.mbooks.base.security.jwt.JwtProvider;
 import com.ll.mbooks.domain.attr.service.AttrService;
 import com.ll.mbooks.domain.cash.entity.CashLog;
@@ -20,9 +19,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -150,7 +146,7 @@ public class MemberService {
     }
 
     @Transactional
-    public RsData beAuthor(Member member, String nickname) {
+    public RsData beAuthor(Member member, String nickname, String avatarFileName) {
         Optional<Member> opMember = memberRepository.findByNickname(nickname);
 
         if (opMember.isPresent()) {
@@ -158,6 +154,9 @@ public class MemberService {
         }
 
         member.setNickname(nickname);
+        if ( avatarFileName != null ) member.setAvatarFileName(avatarFileName);
+
+        memberRepository.save(member);
 
         return RsData.of("S-1", "해당 필명으로 활동을 시작합니다.");
     }

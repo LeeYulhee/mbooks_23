@@ -7,10 +7,13 @@ import com.ll.mbooks.domain.member.entity.Member;
 import com.ll.mbooks.domain.member.exception.AlreadyJoinException;
 import com.ll.mbooks.domain.member.form.JoinForm;
 import com.ll.mbooks.domain.member.service.MemberService;
+import com.ll.mbooks.util.Ut;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.List;
 
 
@@ -33,6 +37,8 @@ import java.util.List;
 public class MemberController {
     private final MemberService memberService;
     private final Rq rq;
+    @Value("${custom.genFileDirPath}")
+    private String genFileDirPath;
 
     @PreAuthorize("isAnonymous()")
     @GetMapping("/login")
@@ -138,13 +144,22 @@ public class MemberController {
         return "member/beAuthor";
     }
 
+    @SneakyThrows
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/beAuthor")
     public String beAuthor(MultipartFile avatar, String nickname) {
-        log.debug("avatar : {}", avatar);
         Member member = rq.getMember();
 
-        RsData rsData = memberService.beAuthor(member, nickname);
+        String avatarFileName = null;
+
+        if ( avatar != null && !avatar.isEmpty() ) {
+            avatarFileName = "%d".formatted(member.getId()) + "." + Ut.file.getExt(avatar.getOriginalFilename());
+            File destFile = new File(genFileDirPath + "/member/" + avatarFileName);
+            destFile.mkdirs();
+            avatar.transferTo(destFile);
+        }
+
+        RsData rsData = memberService.beAuthor(member, nickname, avatarFileName);
 
         if (rsData.isFail()) {
             return Rq.redirectWithMsg("/member/beAuthor", rsData);
@@ -154,6 +169,7 @@ public class MemberController {
 
         return Rq.redirectWithMsg("/", rsData);
     }
+
 
     private void forceAuthentication(Member member) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

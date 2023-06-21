@@ -35,6 +35,7 @@ public class Member extends BaseEntity {
     private boolean emailVerified;
     private long restCash;
     private String nickname;
+    private String avatarFileName;
 
     @Convert(converter = AuthLevel.Converter.class)
     private AuthLevel authLevel;

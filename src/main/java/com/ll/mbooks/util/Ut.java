@@ -16,10 +16,7 @@ import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Component
 public class Ut {
@@ -212,6 +209,15 @@ public class Ut {
             }
 
             return headers;
+        }
+    }
+
+    public strictfp class file {
+        public static String getExt(String filename) {
+            return Optional.ofNullable(filename)
+                    .filter(f -> f.contains("."))
+                    .map(f -> f.substring(filename.lastIndexOf(".") + 1))
+                    .orElse("");
         }
     }
 }
