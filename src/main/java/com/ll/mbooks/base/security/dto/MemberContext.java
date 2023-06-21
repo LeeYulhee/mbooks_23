@@ -19,6 +19,7 @@ public class MemberContext extends User {
     private final String email;
     private final String nickname;
     private final AuthLevel authLevel;
+    private final String avatarFileName;
 
     public MemberContext(Member member, List<GrantedAuthority> authorities) {
         super(member.getUsername(), member.getPassword() != null ? member.getPassword() : "", authorities);
@@ -28,6 +29,7 @@ public class MemberContext extends User {
         this.username = member.getUsername();
         this.email = member.getEmail();
         this.nickname = member.getNickname();
+        this.avatarFileName = member.getAvatarFileName();
         this.authLevel = member.getAuthLevel();
     }
 
@@ -40,6 +42,7 @@ public class MemberContext extends User {
                 .username(username)
                 .email(email)
                 .nickname(nickname)
+                .avatarFileName(avatarFileName)
                 .authLevel(authLevel)
                 .build();
     }

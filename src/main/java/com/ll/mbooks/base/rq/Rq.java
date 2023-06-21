@@ -161,4 +161,24 @@ public class Rq {
     public HttpSession getSession() {
         return req.getSession();
     }
+
+    public String getAvatar(Integer size) {
+        String avatarFileName = member.getAvatarFileName();
+
+        System.out.println("avatarFileName = " + avatarFileName);
+
+        if ( StringUtils.hasLength(avatarFileName) ) {
+            return """
+                    <img width="%d" height="%d" src="%s">
+                    """
+                    .stripIndent()
+                    .formatted(size, size, "/gen/member/" + avatarFileName);
+        }
+
+        return """
+                <svg width="%d" height="%d" data-jdenticon-value="%s"></svg>
+                """
+                .stripIndent()
+                .formatted(size, size, member.getJdenticon());
+    }
 }

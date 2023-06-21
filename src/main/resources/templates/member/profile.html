@@ -58,7 +58,8 @@
                     <label class="label">
                         <span class="label-text">프로필이미지</span>
                     </label>
-                    <svg width="100" height="100" th:data-jdenticon-value="${@rq.member.jdenticon}"></svg>
+                    <th:block th:utext="${@rq.getAvatar(100)}"></th:block>
+
                 </div>
 
                 <div class="grid grid-cols-2 mt-2 gap-2">
