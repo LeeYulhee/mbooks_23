@@ -45,7 +45,7 @@ public class Rq {
     public String redirectToBackWithMsg(String msg) {
         String url = req.getHeader("Referer");
 
-        if (StringUtils.hasText(url) == false) {
+        if (!StringUtils.hasText(url)) {
             url = "/";
         }
 
@@ -124,11 +124,11 @@ public class Rq {
     }
 
     public boolean isLogout() {
-        return member == null;
+        return user == null;
     }
 
     public boolean isLogined() {
-        return isLogout() == false;
+        return !isLogout();
     }
 
     public boolean isAdmin() {
@@ -144,7 +144,7 @@ public class Rq {
     }
 
     public boolean isUsrPage() {
-        return isAdmPage() == false;
+        return !isAdmPage();
     }
 
     public boolean isAdmPage() {
