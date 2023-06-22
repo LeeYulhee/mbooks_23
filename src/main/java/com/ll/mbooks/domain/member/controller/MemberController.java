@@ -159,13 +159,9 @@ public class MemberController {
             return Rq.redirectWithMsg("/member/beAuthor", rsData);
         }
 
-        forceAuthentication(member);
+        // 레디스에 저장되어 있는 memberMap 을 날림
+        memberService.evictMemberMapByUsername__cached(member.getUsername());
 
         return Rq.redirectWithMsg("/", rsData);
-    }
-
-
-    private void forceAuthentication(Member member) {
-        // TODO : 세션정보 갱신해야 함
     }
 }

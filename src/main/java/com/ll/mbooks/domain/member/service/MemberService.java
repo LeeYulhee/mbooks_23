@@ -18,6 +18,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -233,6 +234,11 @@ public class MemberService {
         log.debug("member.toMap() : " + member.toMap());
 
         return member.toMap();
+    }
+
+    @CacheEvict("member")
+    public void evictMemberMapByUsername__cached(String username) {
+
     }
 
     public Member getByUsername__cached(String username) {

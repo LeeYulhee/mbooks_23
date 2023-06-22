@@ -129,7 +129,7 @@ public class Member extends BaseEntity {
     public Map<String, Object> getAccessTokenClaims() {
         return Ut.mapOf(
                 "id", getId(),
-                "modifyDate", getModifyDate(),
+                "createDate", getCreateDate(),
                 "username", getUsername()
         );
     }
