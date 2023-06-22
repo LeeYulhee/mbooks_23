@@ -74,6 +74,7 @@ public class Member extends BaseEntity {
         AuthLevel authLevel = (AuthLevel) map.get("authLevel");
         String accessToken = (String) map.get("accessToken");
         String nickname = (String) map.get("nickname");
+        Long restCash = (Long) map.get("restCash");
         String avatarFileName = (String) map.get("avatarFileName");
 
         return Member
@@ -87,6 +88,7 @@ public class Member extends BaseEntity {
                 .authLevel(authLevel)
                 .accessToken(accessToken)
                 .nickname(nickname)
+                .restCash(restCash)
                 .avatarFileName(avatarFileName)
                 .build();
     }
@@ -145,7 +147,8 @@ public class Member extends BaseEntity {
                 "authLevel", getAuthLevel(),
                 "authorities", getGrantedAuthorities(),
                 "accessToken", getAccessToken(),
-                "avatarFileName", getAvatarFileName()
+                "avatarFileName", getAvatarFileName(),
+                "restCash", getRestCash()
         );
     }
 

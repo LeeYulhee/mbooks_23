@@ -146,12 +146,14 @@ public class MemberService {
     }
 
     @Transactional
-    public RsData beAuthor(Member member, String nickname, String avatarFileName) {
+    public RsData beAuthor(String username, String nickname, String avatarFileName) {
         Optional<Member> opMember = memberRepository.findByNickname(nickname);
 
         if (opMember.isPresent()) {
             return RsData.of("F-1", "해당 필명은 이미 사용중입니다.");
         }
+
+        Member member = findByUsername(username).get();
 
         member.setNickname(nickname);
         if (avatarFileName != null) member.setAvatarFileName(avatarFileName);

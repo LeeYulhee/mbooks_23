@@ -153,7 +153,7 @@ public class MemberController {
             avatar.transferTo(destFile);
         }
 
-        RsData rsData = memberService.beAuthor(member, nickname, avatarFileName);
+        RsData rsData = memberService.beAuthor(member.getUsername(), nickname, avatarFileName);
 
         if (rsData.isFail()) {
             return Rq.redirectWithMsg("/member/beAuthor", rsData);
