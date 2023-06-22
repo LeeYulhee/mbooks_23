@@ -1,6 +1,5 @@
 package com.ll.mbooks.base.security.filter;
 
-import com.ll.mbooks.base.security.dto.MemberContext;
 import com.ll.mbooks.base.security.jwt.JwtProvider;
 import com.ll.mbooks.domain.member.entity.Member;
 import com.ll.mbooks.domain.member.service.MemberService;
@@ -13,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -50,13 +50,13 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     }
 
     private void forceAuthentication(Member member) {
-        MemberContext memberContext = new MemberContext(member, member.genAuthorities());
+        User user = new User(member.getUsername(), member.getPassword(), member.getGrantedAuthorities());
 
         UsernamePasswordAuthenticationToken authentication =
                 UsernamePasswordAuthenticationToken.authenticated(
-                        memberContext,
+                        user,
                         null,
-                        member.genAuthorities()
+                        member.getGrantedAuthorities()
                 );
 
         SecurityContext context = SecurityContextHolder.createEmptyContext();

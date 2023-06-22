@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ll.mbooks.base.dto.RsData;
 import com.ll.mbooks.base.rq.Rq;
-import com.ll.mbooks.base.security.dto.MemberContext;
 import com.ll.mbooks.domain.member.entity.Member;
 import com.ll.mbooks.domain.member.service.MemberService;
 import com.ll.mbooks.domain.order.entity.Order;
@@ -13,14 +12,12 @@ import com.ll.mbooks.domain.order.exception.ActorCanNotSeeOrderException;
 import com.ll.mbooks.domain.order.exception.OrderIdNotMatchedException;
 import com.ll.mbooks.domain.order.exception.OrderNotEnoughRestCashException;
 import com.ll.mbooks.domain.order.service.OrderService;
-import com.ll.mbooks.util.Ut;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.http.client.ClientHttpResponse;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -44,10 +41,10 @@ public class OrderController {
 
     @PostMapping("/{id}/payByRestCashOnly")
     @PreAuthorize("isAuthenticated()")
-    public String payByRestCashOnly(@AuthenticationPrincipal MemberContext memberContext, @PathVariable long id) {
+    public String payByRestCashOnly(@PathVariable long id) {
         Order order = orderService.findForPrintById(id).get();
 
-        Member actor = memberContext.getMember();
+        Member actor = rq.getMember();
 
         if (!orderService.actorCanPayment(actor, order)) {
             throw new ActorCanNotPayOrderException();
@@ -60,14 +57,14 @@ public class OrderController {
 
     @GetMapping("/{id}")
     @PreAuthorize("isAuthenticated()")
-    public String showDetail(@AuthenticationPrincipal MemberContext memberContext, @PathVariable long id, Model model) {
+    public String showDetail(@PathVariable long id, Model model) {
         Order order = orderService.findForPrintById(id).orElse(null);
 
         if (order == null) {
             return rq.redirectToBackWithMsg("주문을 찾을 수 없습니다.");
         }
 
-        Member actor = memberContext.getMember();
+        Member actor = rq.getMember();
 
         long restCash = memberService.getRestCash(actor);
 
@@ -104,8 +101,7 @@ public class OrderController {
             @RequestParam String paymentKey,
             @RequestParam String orderId,
             @RequestParam Long amount,
-            Model model,
-            @AuthenticationPrincipal MemberContext memberContext
+            Model model
     ) throws Exception {
 
         Order order = orderService.findForPrintById(id).get();
@@ -125,7 +121,7 @@ public class OrderController {
         payloadMap.put("orderId", orderId);
         payloadMap.put("amount", String.valueOf(amount));
 
-        Member actor = memberContext.getMember();
+        Member actor = rq.getMember();
         long restCash = memberService.getRestCash(actor);
         long payPriceRestCash = order.calculatePayPrice() - amount;
 
@@ -163,8 +159,8 @@ public class OrderController {
 
     @PostMapping("/create")
     @PreAuthorize("isAuthenticated()")
-    public String create(@AuthenticationPrincipal MemberContext memberContext) {
-        Member member = memberContext.getMember();
+    public String create() {
+        Member member = rq.getMember();
         Order order = orderService.createFromCart(member);
 
         return Rq.redirectWithMsg(

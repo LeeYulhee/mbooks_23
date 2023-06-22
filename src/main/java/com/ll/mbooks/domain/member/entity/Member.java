@@ -109,16 +109,16 @@ public class Member extends BaseEntity {
         return "member__" + getId();
     }
 
-    public List<GrantedAuthority> genAuthorities() {
+    public List<GrantedAuthority> getGrantedAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority("MEMBER"));
 
-        if (getAuthLevel() == AuthLevel.ADMIN) {
+        if (isAdmin()) {
             authorities.add(new SimpleGrantedAuthority("ADMIN"));
         }
 
         // 닉네임을 가지고 있다면 작가의 권한을 가진다.
-        if (StringUtils.hasText(nickname)) {
+        if (isAuthor()) {
             authorities.add(new SimpleGrantedAuthority("AUTHOR"));
         }
 
@@ -136,7 +136,7 @@ public class Member extends BaseEntity {
                 "emailVerified", isEmailVerified(),
                 "nickname", getNickname(),
                 "authLevel", getAuthLevel(),
-                "authorities", genAuthorities()
+                "authorities", getGrantedAuthorities()
         );
     }
 
@@ -151,8 +151,16 @@ public class Member extends BaseEntity {
                 "emailVerified", isEmailVerified(),
                 "nickname", getNickname(),
                 "authLevel", getAuthLevel(),
-                "authorities", genAuthorities(),
+                "authorities", getGrantedAuthorities(),
                 "accessToken", getAccessToken()
         );
+    }
+
+    public boolean isAdmin() {
+        return getAuthLevel() == AuthLevel.ADMIN;
+    }
+
+    public boolean isAuthor() {
+        return StringUtils.hasText(getNickname());
     }
 }

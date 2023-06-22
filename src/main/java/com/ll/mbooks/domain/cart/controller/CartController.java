@@ -1,7 +1,6 @@
 package com.ll.mbooks.domain.cart.controller;
 
 import com.ll.mbooks.base.rq.Rq;
-import com.ll.mbooks.base.security.dto.MemberContext;
 import com.ll.mbooks.domain.cart.entity.CartItem;
 import com.ll.mbooks.domain.cart.service.CartService;
 import com.ll.mbooks.domain.member.entity.Member;
@@ -9,7 +8,6 @@ import com.ll.mbooks.domain.product.entity.Product;
 import com.ll.mbooks.util.Ut;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,8 +27,8 @@ public class CartController {
 
     @GetMapping("/items")
     @PreAuthorize("isAuthenticated()")
-    public String showItems(@AuthenticationPrincipal MemberContext memberContext, Model model) {
-        Member buyer = memberContext.getMember();
+    public String showItems(Model model) {
+        Member buyer = rq.getMember();
 
         List<CartItem> items = cartService.getItemsByBuyer(buyer);
 

@@ -1,6 +1,5 @@
-package com.ll.mbooks.controller;
+package com.ll.mbooks.domain.post.controller;
 
-import com.ll.mbooks.domain.post.controller.PostController;
 import com.ll.mbooks.domain.post.entity.Post;
 import com.ll.mbooks.domain.post.service.PostService;
 import com.ll.mbooks.domain.postTag.entity.PostTag;

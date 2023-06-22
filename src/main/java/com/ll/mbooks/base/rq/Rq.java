@@ -1,16 +1,16 @@
 package com.ll.mbooks.base.rq;
 
 import com.ll.mbooks.base.dto.RsData;
-import com.ll.mbooks.base.security.dto.MemberContext;
 import com.ll.mbooks.domain.member.entity.Member;
+import com.ll.mbooks.domain.member.service.MemberService;
 import com.ll.mbooks.util.Ut;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.context.annotation.RequestScope;
@@ -23,23 +23,22 @@ import java.util.Date;
 public class Rq {
     private final HttpServletRequest req;
     private final HttpServletResponse resp;
-    private final MemberContext memberContext;
-    @Getter
-    private final Member member;
+    private final User user;
+    private final MemberService memberService;
+    private Member member = null;
 
-    public Rq(HttpServletRequest req, HttpServletResponse resp) {
+    public Rq(HttpServletRequest req, HttpServletResponse resp, MemberService memberService) {
         this.req = req;
         this.resp = resp;
+        this.memberService = memberService;
 
         // 현재 로그인한 회원의 인증정보를 가져옴
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication.getPrincipal() instanceof MemberContext) {
-            this.memberContext = (MemberContext) authentication.getPrincipal();
-            this.member = memberContext.getMember();
+        if (authentication.getPrincipal() instanceof User) {
+            this.user = (User) authentication.getPrincipal();
         } else {
-            this.memberContext = null;
-            this.member = null;
+            this.user = null;
         }
     }
 
@@ -51,12 +50,6 @@ public class Rq {
         }
 
         return redirectWithMsg(url, msg);
-    }
-
-    public boolean hasAuthority(String authorityName) {
-        if (memberContext == null) return false;
-
-        return memberContext.hasAuthority(authorityName);
     }
 
     // 뒤로가기 + 메세지
@@ -141,13 +134,13 @@ public class Rq {
     public boolean isAdmin() {
         if (isLogout()) return false;
 
-        return memberContext.hasAuthority("ADMIN");
+        return getMember().isAdmin();
     }
 
     public boolean isAuthor() {
         if (isLogout()) return false;
 
-        return memberContext.hasAuthority("AUTHOR");
+        return getMember().isAuthor();
     }
 
     public boolean isUsrPage() {
@@ -167,7 +160,7 @@ public class Rq {
 
         System.out.println("avatarFileName = " + avatarFileName);
 
-        if ( StringUtils.hasLength(avatarFileName) ) {
+        if (StringUtils.hasLength(avatarFileName)) {
             return """
                     <img width="%d" height="%d" src="%s">
                     """
@@ -180,5 +173,17 @@ public class Rq {
                 """
                 .stripIndent()
                 .formatted(size, size, member.getJdenticon());
+    }
+
+    // 로그인 된 회원의 객체
+    public Member getMember() {
+        if (isLogout()) return null;
+
+        // 데이터가 없는지 체크
+        if (member == null) {
+            member = memberService.findByUsername(user.getUsername()).orElseThrow();
+        }
+
+        return member;
     }
 }

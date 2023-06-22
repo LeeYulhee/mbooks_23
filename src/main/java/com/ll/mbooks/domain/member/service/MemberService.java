@@ -154,7 +154,7 @@ public class MemberService {
         }
 
         member.setNickname(nickname);
-        if ( avatarFileName != null ) member.setAvatarFileName(avatarFileName);
+        if (avatarFileName != null) member.setAvatarFileName(avatarFileName);
 
         memberRepository.save(member);
 

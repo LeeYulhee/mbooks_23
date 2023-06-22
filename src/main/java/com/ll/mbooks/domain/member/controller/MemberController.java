@@ -2,7 +2,6 @@ package com.ll.mbooks.domain.member.controller;
 
 import com.ll.mbooks.base.dto.RsData;
 import com.ll.mbooks.base.rq.Rq;
-import com.ll.mbooks.base.security.dto.MemberContext;
 import com.ll.mbooks.domain.member.entity.Member;
 import com.ll.mbooks.domain.member.exception.AlreadyJoinException;
 import com.ll.mbooks.domain.member.form.JoinForm;
@@ -15,10 +14,6 @@ import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.List;
 
 
 @Controller
@@ -152,7 +146,7 @@ public class MemberController {
 
         String avatarFileName = null;
 
-        if ( avatar != null && !avatar.isEmpty() ) {
+        if (avatar != null && !avatar.isEmpty()) {
             avatarFileName = "%d".formatted(member.getId()) + "." + Ut.file.getExt(avatar.getOriginalFilename());
             File destFile = new File(genFileDirPath + "/member/" + avatarFileName);
             destFile.mkdirs();
@@ -172,12 +166,6 @@ public class MemberController {
 
 
     private void forceAuthentication(Member member) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-
-        List<GrantedAuthority> updatedAuthorities = member.genAuthorities();
-
-        Authentication newAuth = new UsernamePasswordAuthenticationToken(new MemberContext(member, member.genAuthorities()), auth.getCredentials(), updatedAuthorities);
-
-        SecurityContextHolder.getContext().setAuthentication(newAuth);
+        // TODO : 세션정보 갱신해야 함
     }
 }
