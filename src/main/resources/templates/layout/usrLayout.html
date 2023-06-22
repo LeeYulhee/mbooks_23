@@ -46,7 +46,7 @@
             <a href="/member/profile" th:if="${@rq.logined}">
                 <i class="fa-solid fa-user"></i>
                 <span class="ml-[2px]">
-                   <svg class="inline" width="20" height="20" th:data-jdenticon-value="${@rq.member.jdenticon}"></svg>
+                   <th:block th:utext="${@rq.getAvatar(20)}"></th:block>
                 </span>
                 <span class="ml-[2px] hidden lg:inline">
                     [[${@rq.member.name}]]

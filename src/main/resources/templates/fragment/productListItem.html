@@ -16,8 +16,7 @@
                     <span th:text="${product.subject}"></span>
                 </a>
                 <div>
-                    <svg class="inline" width="20" height="20"
-                         th:data-jdenticon-value="${product.author.jdenticon}"></svg>
+                    <th:block th:utext="${@rq.getAvatar(product.author, 50)}"></th:block>
                     <span th:text="${product.author.name}"></span>
                 </div>
             </h2>

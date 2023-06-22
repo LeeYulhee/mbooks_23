@@ -17,9 +17,8 @@
                     <span th:text="${product.subject}"></span>
                 </a>
                 <div class="flex items-center gap-1">
-                    <svg width="20" height="20"
-                         th:data-jdenticon-value="${product.author.jdenticon}"></svg>
-                    <div th:text="${product.author.name}"></div>
+                    <th:block th:utext="${@rq.getAvatar(product.author, 50)}"></th:block>
+                    <span class="ml-1" th:text="${product.author.name}"></span>
                 </div>
             </h2>
             <div th:text="|￦ ${@ut.nf(product.salePrice)}|"></div>

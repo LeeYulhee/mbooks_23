@@ -155,24 +155,28 @@ public class Rq {
         return req.getSession();
     }
 
-    public String getAvatar(Integer size) {
+    public String getAvatar(Member member, Integer size) {
         String avatarFileName = member.getAvatarFileName();
 
         System.out.println("avatarFileName = " + avatarFileName);
 
         if (StringUtils.hasLength(avatarFileName)) {
             return """
-                    <img width="%d" height="%d" src="%s">
+                    <img width="%d" height="%d" src="%s" class="object-cover inline">
                     """
                     .stripIndent()
                     .formatted(size, size, "/gen/member/" + avatarFileName);
         }
 
         return """
-                <svg width="%d" height="%d" data-jdenticon-value="%s"></svg>
+                <svg class="inline" width="%d" height="%d" data-jdenticon-value="%s"></svg>
                 """
                 .stripIndent()
                 .formatted(size, size, member.getJdenticon());
+    }
+
+    public String getAvatar(Integer size) {
+        return getAvatar(member, size);
     }
 
     // 로그인 된 회원의 객체

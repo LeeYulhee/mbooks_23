@@ -15,9 +15,9 @@
                     <i class="fa-solid fa-newspaper"></i>
                     <span th:text="${post.subject}"></span>
                 </a>
-                <div class="flex">
-                    <svg width="20" height="20" th:data-jdenticon-value="${post.author.jdenticon}"></svg>
-                    <div th:text="${post.author.name}"></div>
+                <div class="flex flex-1 items-center justify-end">
+                    <th:block th:utext="${@rq.getAvatar(post.author, 50)}"></th:block>
+                    <div class="ml-1" th:text="${post.author.name}"></div>
                 </div>
             </h2>
             <div th:utext="${post.extra_postTagLinks}"></div>
