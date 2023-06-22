@@ -39,6 +39,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
                 // 캐시(레디스)를 통해서
                 Member member = memberService.getByUsername__cached((String) claims.get("username"));
 
+                log.debug("member: {}", member);
+
                 // 2차 체크(화이트리스트에 포함되는지)
                 if (memberService.verifyWithWhiteList(member, token)) {
                     forceAuthentication(member);
@@ -50,7 +52,7 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     }
 
     private void forceAuthentication(Member member) {
-        User user = new User(member.getUsername(), member.getPassword(), member.getGrantedAuthorities());
+        User user = new User(member.getUsername(), "", member.getGrantedAuthorities());
 
         UsernamePasswordAuthenticationToken authentication =
                 UsernamePasswordAuthenticationToken.authenticated(
