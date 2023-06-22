@@ -44,40 +44,37 @@ public class Member extends BaseEntity {
     private String accessToken;
 
     public static Member fromMap(Map<String, Object> map) {
-        return fromJwtClaims(map);
-    }
-
-    public static Member fromJwtClaims(Map<String, Object> jwtClaims) {
         long id = 0;
 
-        if (jwtClaims.get("id") instanceof Long) {
-            id = (long) jwtClaims.get("id");
-        } else if (jwtClaims.get("id") instanceof Integer) {
-            id = (long) (int) jwtClaims.get("id");
+        if (map.get("id") instanceof Long) {
+            id = (long) map.get("id");
+        } else if (map.get("id") instanceof Integer) {
+            id = (long) (int) map.get("id");
         }
 
         LocalDateTime createDate = null;
         LocalDateTime modifyDate = null;
 
 
-        if (jwtClaims.get("createDate") instanceof LocalDateTime) {
-            createDate = (LocalDateTime) jwtClaims.get("createDate");
-        } else if (jwtClaims.get("createDate") instanceof List) {
-            createDate = Ut.date.bitsToLocalDateTime((List<Integer>) jwtClaims.get("createDate"));
+        if (map.get("createDate") instanceof LocalDateTime) {
+            createDate = (LocalDateTime) map.get("createDate");
+        } else if (map.get("createDate") instanceof List) {
+            createDate = Ut.date.bitsToLocalDateTime((List<Integer>) map.get("createDate"));
         }
 
-        if (jwtClaims.get("modifyDate") instanceof LocalDateTime) {
-            modifyDate = (LocalDateTime) jwtClaims.get("modifyDate");
-        } else if (jwtClaims.get("modifyDate") instanceof List) {
-            modifyDate = Ut.date.bitsToLocalDateTime((List<Integer>) jwtClaims.get("modifyDate"));
+        if (map.get("modifyDate") instanceof LocalDateTime) {
+            modifyDate = (LocalDateTime) map.get("modifyDate");
+        } else if (map.get("modifyDate") instanceof List) {
+            modifyDate = Ut.date.bitsToLocalDateTime((List<Integer>) map.get("modifyDate"));
         }
 
-        String username = (String) jwtClaims.get("username");
-        String email = (String) jwtClaims.get("email");
-        boolean emailVerified = (boolean) jwtClaims.get("emailVerified");
-        AuthLevel authLevel = (AuthLevel) jwtClaims.get("authLevel");
-        String accessToken = (String) jwtClaims.get("accessToken");
-        String nickname = (String) jwtClaims.get("nickname");
+        String username = (String) map.get("username");
+        String email = (String) map.get("email");
+        boolean emailVerified = (boolean) map.get("emailVerified");
+        AuthLevel authLevel = (AuthLevel) map.get("authLevel");
+        String accessToken = (String) map.get("accessToken");
+        String nickname = (String) map.get("nickname");
+        String avatarFileName = (String) map.get("avatarFileName");
 
         return Member
                 .builder()
@@ -90,6 +87,7 @@ public class Member extends BaseEntity {
                 .authLevel(authLevel)
                 .accessToken(accessToken)
                 .nickname(nickname)
+                .avatarFileName(avatarFileName)
                 .build();
     }
 
@@ -129,14 +127,8 @@ public class Member extends BaseEntity {
     public Map<String, Object> getAccessTokenClaims() {
         return Ut.mapOf(
                 "id", getId(),
-                "createDate", getCreateDate(),
                 "modifyDate", getModifyDate(),
-                "username", getUsername(),
-                "email", getEmail(),
-                "emailVerified", isEmailVerified(),
-                "nickname", getNickname(),
-                "authLevel", getAuthLevel(),
-                "authorities", getGrantedAuthorities()
+                "username", getUsername()
         );
     }
 
@@ -152,7 +144,8 @@ public class Member extends BaseEntity {
                 "nickname", getNickname(),
                 "authLevel", getAuthLevel(),
                 "authorities", getGrantedAuthorities(),
-                "accessToken", getAccessToken()
+                "accessToken", getAccessToken(),
+                "avatarFileName", getAvatarFileName()
         );
     }
 
