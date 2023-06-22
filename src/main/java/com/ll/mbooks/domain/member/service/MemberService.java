@@ -20,6 +20,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -147,7 +151,7 @@ public class MemberService {
     }
 
     @Transactional
-    public RsData beAuthor(String username, String nickname, String avatarFileName) {
+    public RsData<Member> beAuthor(String username, String nickname, String avatarFileName) {
         Optional<Member> opMember = memberRepository.findByNickname(nickname);
 
         if (opMember.isPresent()) {
@@ -161,7 +165,7 @@ public class MemberService {
 
         memberRepository.save(member);
 
-        return RsData.of("S-1", "해당 필명으로 활동을 시작합니다.");
+        return RsData.of("S-1", "해당 필명으로 활동을 시작합니다.", member);
     }
 
     @Transactional
@@ -194,6 +198,35 @@ public class MemberService {
 
         // 90일이 지났는지 확인합니다.
         return daysBetween >= AppConfig.getChangePasswordCycleDays();
+    }
+
+    public void renewAuthentication(Member member) {
+        User user = new User(member.getUsername(), "", member.getGrantedAuthorities());
+
+        UsernamePasswordAuthenticationToken authentication =
+                UsernamePasswordAuthenticationToken.authenticated(
+                        user,
+                        null,
+                        member.getGrantedAuthorities()
+                );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    // JWT 를 위한 user 객체 생성
+    public void forceAuthentication(Member member) {
+        User user = new User(member.getUsername(), "", member.getGrantedAuthorities());
+
+        UsernamePasswordAuthenticationToken authentication =
+                UsernamePasswordAuthenticationToken.authenticated(
+                        user,
+                        null,
+                        member.getGrantedAuthorities()
+                );
+
+        SecurityContext context = SecurityContextHolder.createEmptyContext();
+        context.setAuthentication(authentication);
+        SecurityContextHolder.setContext(context);
     }
 
     @Data

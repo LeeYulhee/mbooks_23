@@ -43,26 +43,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
                 // 2차 체크(화이트리스트에 포함되는지)
                 if (memberService.verifyWithWhiteList(member, token)) {
-                    forceAuthentication(member);
+                    memberService.forceAuthentication(member);
                 }
             }
         }
 
         filterChain.doFilter(request, response);
-    }
-
-    private void forceAuthentication(Member member) {
-        User user = new User(member.getUsername(), "", member.getGrantedAuthorities());
-
-        UsernamePasswordAuthenticationToken authentication =
-                UsernamePasswordAuthenticationToken.authenticated(
-                        user,
-                        null,
-                        member.getGrantedAuthorities()
-                );
-
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        context.setAuthentication(authentication);
-        SecurityContextHolder.setContext(context);
     }
 }

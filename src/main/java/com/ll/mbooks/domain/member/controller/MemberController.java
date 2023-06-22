@@ -153,7 +153,10 @@ public class MemberController {
             avatar.transferTo(destFile);
         }
 
-        RsData rsData = memberService.beAuthor(member.getUsername(), nickname, avatarFileName);
+        RsData<Member> rsData = memberService.beAuthor(member.getUsername(), nickname, avatarFileName);
+
+        // 이렇게 하지 않으면 밑에서 forceAuthentication 가 실행될 때, 닉네임이 있음에도 불구하고 작가가 아니라고 나온다.
+        member = rsData.getData();
 
         if (rsData.isFail()) {
             return Rq.redirectWithMsg("/member/beAuthor", rsData);
@@ -161,6 +164,8 @@ public class MemberController {
 
         // 레디스에 저장되어 있는 memberMap 을 날림
         memberService.evictMemberMapByUsername__cached(member.getUsername());
+        // 레디스에 저장되어 있는 시큐리티 유저를 새로 생성
+        memberService.renewAuthentication(member);
 
         return Rq.redirectWithMsg("/", rsData);
     }
