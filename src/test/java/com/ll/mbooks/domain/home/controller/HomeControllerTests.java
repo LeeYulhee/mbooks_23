@@ -1,6 +1,5 @@
-package com.ll.mbooks.controller;
+package com.ll.mbooks.domain.home.controller;
 
-import com.ll.mbooks.domain.home.controller.HomeController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,8 +1,6 @@
-package com.ll.mbooks.service;
-
+package com.ll.mbooks.domain.cart.service;
 
 import com.ll.mbooks.domain.cart.entity.CartItem;
-import com.ll.mbooks.domain.cart.service.CartService;
 import com.ll.mbooks.domain.member.entity.Member;
 import com.ll.mbooks.domain.member.repository.MemberRepository;
 import com.ll.mbooks.domain.product.entity.Product;

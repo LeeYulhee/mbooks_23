@@ -1,9 +1,8 @@
-package com.ll.mbooks.service;
+package com.ll.mbooks.domain.post.service;
 
 import com.ll.mbooks.domain.member.entity.Member;
 import com.ll.mbooks.domain.member.repository.MemberRepository;
 import com.ll.mbooks.domain.post.entity.Post;
-import com.ll.mbooks.domain.post.service.PostService;
 import com.ll.mbooks.domain.postTag.entity.PostTag;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

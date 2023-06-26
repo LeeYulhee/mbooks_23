@@ -1,8 +1,7 @@
-package com.ll.mbooks.service;
+package com.ll.mbooks.domain.emailVerification.service;
 
 
 import com.ll.mbooks.base.dto.RsData;
-import com.ll.mbooks.domain.emailVerification.service.EmailVerificationService;
 import com.ll.mbooks.domain.member.entity.Member;
 import com.ll.mbooks.domain.member.service.MemberService;
 import com.ll.mbooks.util.Ut;

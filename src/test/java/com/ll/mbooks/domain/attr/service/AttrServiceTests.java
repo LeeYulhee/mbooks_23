@@ -1,6 +1,5 @@
-package com.ll.mbooks.service;
+package com.ll.mbooks.domain.attr.service;
 
-import com.ll.mbooks.domain.attr.service.AttrService;
 import com.ll.mbooks.util.Ut;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

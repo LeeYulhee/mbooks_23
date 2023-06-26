@@ -1,6 +1,5 @@
-package com.ll.mbooks.controller;
+package com.ll.mbooks.domain.order.controller;
 
-import com.ll.mbooks.domain.order.controller.OrderController;
 import com.ll.mbooks.domain.order.service.OrderService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

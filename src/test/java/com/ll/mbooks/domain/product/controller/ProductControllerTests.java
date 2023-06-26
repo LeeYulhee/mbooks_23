@@ -1,6 +1,5 @@
-package com.ll.mbooks.controller;
+package com.ll.mbooks.domain.product.controller;
 
-import com.ll.mbooks.domain.product.controller.ProductController;
 import com.ll.mbooks.domain.product.service.ProductService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

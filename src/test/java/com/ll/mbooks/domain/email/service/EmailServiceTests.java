@@ -1,7 +1,6 @@
-package com.ll.mbooks.service;
+package com.ll.mbooks.domain.email.service;
 
 import com.ll.mbooks.base.dto.RsData;
-import com.ll.mbooks.domain.email.service.EmailService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
