@@ -45,12 +45,14 @@ public class NotProd {
 
             initDataDone = true;
 
-            Member member1 = memberService.join("user1", "1234", "user1@test.com", null);
+            Member member1 = memberService.join("user1", "1234", "user1@test.com", null).getData().getMember();
+            ;
 
             member1.setAuthLevel(AuthLevel.ADMIN);
             memberRepository.save(member1);
 
-            Member member2 = memberService.join("user2", "1234", "user2@test.com", "홍길순");
+            Member member2 = memberService.join("user2", "1234", "user2@test.com", "홍길순").getData().getMember();
+            ;
 
             postService.write(
                     member1,

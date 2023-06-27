@@ -20,7 +20,7 @@ public class EmailService {
     private final EmailSenderService emailSenderService;
 
     @Transactional
-    public RsData sendEmail(String email, String subject, String body) {
+    public RsData<Long> sendEmail(String email, String subject, String body) {
         SendEmailLog sendEmailLog = SendEmailLog
                 .builder()
                 .email(email)

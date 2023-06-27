@@ -1,8 +1,12 @@
 spring:
   datasource:
-    url: jdbc:mariadb://127.0.0.1:3306/mbooks__test?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
-    username: root
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;MODE=MariaDB;DATABASE_TO_LOWER=TRUE
+    username: sa
     password:
+  sql:
+    init:
+      mode: never
   jpa:
     hibernate:
       ddl-auto: create

@@ -32,6 +32,6 @@ public class Attr extends BaseEntity {
     private long relId;
     private String typeCode;
     private String type2Code;
-    private String value;
+    private String val;
     private LocalDateTime expireDate;
 }

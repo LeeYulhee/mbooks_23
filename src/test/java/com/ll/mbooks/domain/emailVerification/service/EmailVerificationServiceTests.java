@@ -52,7 +52,7 @@ class EmailVerificationServiceTests {
     @Test
     @DisplayName("회원가입이 완료되면 유효한 이메일인증코드가 발급된다")
     void t4() {
-        Member member = memberService.join("user3", "1234", "user3@test.com", null);
+        Member member = memberService.join("user3", "1234", "user3@test.com", null).getData().getMember();
         String verificationCode = emailVerificationService.findEmailVerificationCode(member.getId());
 
         boolean isSuccess = emailVerificationService.verifyVerificationCode(member.getId(), verificationCode).isSuccess();
@@ -63,7 +63,9 @@ class EmailVerificationServiceTests {
     @Test
     @DisplayName("회원가입 후 이메일인증코드로 인증을 완료하면 해당 회원은 이메일인증된 회원이 된다")
     public void t5() {
-        Member member = memberService.join("user3", "1234", "user3@test.com", null);
+        MemberService.JoinResponse joinResponse = memberService.join("user3", "1234", "user3@test.com", null).getData();
+        Member member = joinResponse.getMember();
+        joinResponse.getSendRsFuture().join();
         String verificationCode = emailVerificationService.findEmailVerificationCode(member.getId());
 
         boolean isSuccess = memberService.verifyEmail(member.getId(), verificationCode).isSuccess();

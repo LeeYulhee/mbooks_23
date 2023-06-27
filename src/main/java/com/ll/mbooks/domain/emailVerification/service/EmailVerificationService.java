@@ -7,12 +7,11 @@ import com.ll.mbooks.domain.email.service.EmailService;
 import com.ll.mbooks.domain.member.entity.Member;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
-import org.springframework.util.concurrent.ListenableFuture;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @RequiredArgsConstructor
@@ -21,14 +20,14 @@ public class EmailVerificationService {
     private final AttrService attrService;
 
     @Async
-    public ListenableFuture<RsData<Long>> send(Member member) {
+    public CompletableFuture<RsData<Long>> send(Member member) {
         String email = member.getEmail();
         String title = "[%s 이메일인증] 안녕하세요 %s님. 링크를 클릭하여 회원가입을 완료해주세요.".formatted(AppConfig.getSiteName(), member.getName());
         String url = genEmailVerificationUrl(member);
 
         RsData<Long> sendEmailRs = emailService.sendEmail(email, title, url);
 
-        return new AsyncResult<>(sendEmailRs);
+        return CompletableFuture.supplyAsync(() -> sendEmailRs);
     }
 
     public String genEmailVerificationUrl(Member member) {

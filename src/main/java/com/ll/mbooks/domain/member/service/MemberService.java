@@ -16,6 +16,7 @@ import com.ll.mbooks.domain.member.repository.MemberRepository;
 import com.ll.mbooks.util.Ut;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -33,6 +34,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
 
 
 @Service
@@ -48,8 +50,15 @@ public class MemberService {
     private final JwtProvider jwtProvider;
     private final AttrService attrService;
 
+    @AllArgsConstructor
+    @Getter
+    public static class JoinResponse {
+        private final Member member;
+        private final CompletableFuture<RsData<Long>> sendRsFuture;
+    }
+
     @Transactional
-    public Member join(String username, String password, String email, String nickname) {
+    public RsData<JoinResponse> join(String username, String password, String email, String nickname) {
         if (memberRepository.findByUsername(username).isPresent()) {
             throw new AlreadyJoinException("%s(은)는 이미 사용중인 아이디 입니다.".formatted(username));
         }
@@ -64,15 +73,16 @@ public class MemberService {
 
         memberRepository.save(member);
 
-        emailVerificationService.send(member)
-                .addCallback(
-                        sendRsData -> {
-                            // 성공시 처리
-                        },
-                        error -> log.error(error.getMessage())
-                );
+        CompletableFuture<RsData<Long>> sendRsFuture = emailVerificationService.send(member);
+        sendRsFuture.whenComplete((sendRs, throwable) -> {
+            if (sendRs.isSuccess()) {
+                log.info("이메일 인증 메일 발송 성공");
+            } else {
+                log.info("이메일 인증 메일 발송 실패");
+            }
+        });
 
-        return member;
+        return RsData.of("S-1", "회원가입이 완료되었습니다.", new JoinResponse(member, sendRsFuture));
     }
 
 
@@ -143,7 +153,7 @@ public class MemberService {
     }
 
     private void setPasswordModifyDate(Member member, LocalDateTime now) {
-        attrService.set("member", member.getId(), "extra", "passwordModifyDate", now);
+        attrService.set("member", member.getId(), "extra", "passwordModifyDate", now, null);
     }
 
     public LocalDateTime getPasswordModifyDate(Member member) {
